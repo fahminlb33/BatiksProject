@@ -8,6 +8,7 @@ namespace BatiksProject.DataAccess.Repositories
     public interface IUserRepository
     {
         Task<User> Get(string id);
+        Task<User> FindByUsername(string username);
         Task<IEnumerable<User>> GetAll();
         Task Insert(User user);
         Task Update(User user);
@@ -26,6 +27,12 @@ namespace BatiksProject.DataAccess.Repositories
         public async Task<User> Get(string id)
         {
             var cursor = await _collection.FindAsync(x => x.UserId.ToString() == id);
+            return await cursor.SingleOrDefaultAsync();
+        }
+
+        public async Task<User> FindByUsername(string username)
+        {
+            var cursor = await _collection.FindAsync(x => x.Username == username);
             return await cursor.SingleOrDefaultAsync();
         }
 
