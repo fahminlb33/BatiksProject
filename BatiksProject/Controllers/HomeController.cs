@@ -20,18 +20,15 @@ namespace BatiksProject.Controllers
 
         public IActionResult Index()
         {
+            ViewBag.Navbar = NavbarClass.Home;
             return View();
         }
 
-        public IActionResult Privacy()
+        public IActionResult About()
         {
+            ViewBag.Navbar = NavbarClass.About;
             return View();
         }
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
     }
 }

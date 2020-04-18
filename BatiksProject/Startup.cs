@@ -23,7 +23,9 @@ namespace BatiksProject
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddRouting(options => options.LowercaseUrls = true);
             services.AddControllersWithViews();
+            services.AddHttpContextAccessor();
 
             // register MongoDB
             //services.AddSingleton<MinioC>()
@@ -55,7 +57,7 @@ namespace BatiksProject
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Home}/{action=Index}");
             });
         }
     }
