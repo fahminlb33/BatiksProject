@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
-using BatiksProject.DataAccess.Entities;
 using BatiksProject.Infrastructure;
+using BatiksProject.Infrastructure.Entities;
 using Minio;
 using MongoDB.Driver;
 
-namespace BatiksProject.DataAccess.Repositories
+namespace BatiksProject.DataAccess
 {
     public interface IImageRepository
     {

@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using BatiksProject.DataAccess.Entities;
+using BatiksProject.Infrastructure.Entities;
 using MongoDB.Driver;
 
-namespace BatiksProject.DataAccess.Repositories
+namespace BatiksProject.DataAccess
 {
     public interface IProductRepository
     {
