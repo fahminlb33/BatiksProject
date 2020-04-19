@@ -2,7 +2,7 @@
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
-namespace BatiksProject.DataAccess.Entities
+namespace BatiksProject.Infrastructure.Entities
 {
     public class Image
     {
