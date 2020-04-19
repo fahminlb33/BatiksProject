@@ -1,10 +1,7 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -23,14 +20,33 @@ namespace BatiksProject
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddRouting(options => options.LowercaseUrls = true);
-            services.AddControllersWithViews();
             services.AddHttpContextAccessor();
 
-            // register MongoDB
-            //services.AddSingleton<MinioC>()
+            services.AddRouting(options => options.LowercaseUrls = true);
+            services.AddControllersWithViews();
+            
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(x =>
+                {
+                    x.LoginPath = new PathString("/admin/login");
+                    x.LogoutPath = new PathString("/admin/logout");
+                });
 
-            // register MinIO
+            services.Scan(scan => scan
+                .FromApplicationDependencies()
+
+                .AddClasses(classes => classes.InNamespaces("BatiksProject.DataAccess"))
+                .AsImplementedInterfaces()
+                .WithTransientLifetime()
+
+                .AddClasses(classes => classes.InNamespaces("BatiksProject.Services"))
+                .AsImplementedInterfaces()
+                .WithScopedLifetime()
+            
+                .AddClasses(classes => classes.InNamespaces("BatiksProject.Infrastructure"))
+                .AsImplementedInterfaces()
+                .WithSingletonLifetime()
+            );
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -46,13 +62,21 @@ namespace BatiksProject
                 app.UseHsts();
             }
 
-            app.UseStatusCodePagesWithReExecute("/Home/StatusCode","?code={0}");
-            app.UseHttpsRedirection();
             app.UseStaticFiles();
 
             app.UseRouting();
 
+            app.UseHttpsRedirection();
+
+            app.UseAuthentication();
             app.UseAuthorization();
+
+            app.UseCookiePolicy(new CookiePolicyOptions
+            {
+                MinimumSameSitePolicy = SameSiteMode.Strict,
+            });
+
+            app.UseStatusCodePagesWithReExecute("/Home/StatusCode","?code={0}");
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(

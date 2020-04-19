@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using BatiksProject.Models;
+﻿using BatiksProject.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BatiksProject.Controllers
@@ -21,6 +18,13 @@ namespace BatiksProject.Controllers
             return View();
         }
 
+        [Authorize]
+        public IActionResult Manage()
+        {
+            return View();
+        }
+
+        [Authorize]
         public IActionResult Edit()
         {
 
