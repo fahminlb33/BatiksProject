@@ -19,7 +19,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BatiksProject.DataAccess.Te
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BatiksProject.Tests", "BatiksProject.Tests\BatiksProject.Tests.csproj", "{C34D7776-CE69-4F7C-BFE0-DE7E958EEAC2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BatiksProject.Infrastructure", "BatiksProject.Infrastructure\BatiksProject.Infrastructure.csproj", "{194D21E4-B47C-45EA-96C5-83ECBFD7AFA7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BatiksProject.Infrastructure", "BatiksProject.Infrastructure\BatiksProject.Infrastructure.csproj", "{194D21E4-B47C-45EA-96C5-83ECBFD7AFA7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
