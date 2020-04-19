@@ -1,5 +1,5 @@
 ﻿using System;
-using BatiksProject.DataAccess.Entities;
+using BatiksProject.Infrastructure.Entities;
 using MongoDB.Driver;
 
 namespace BatiksProject.DataAccess.Tests

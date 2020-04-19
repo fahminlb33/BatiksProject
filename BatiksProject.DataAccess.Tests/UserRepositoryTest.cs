@@ -1,10 +1,6 @@
 using System;
-using System.Threading;
 using System.Threading.Tasks;
-using BatiksProject.DataAccess.Entities;
-using BatiksProject.DataAccess.Repositories;
-using FakeItEasy;
-using MongoDB.Driver;
+using BatiksProject.Infrastructure.Entities;
 using Xunit;
 
 namespace BatiksProject.DataAccess.Tests
