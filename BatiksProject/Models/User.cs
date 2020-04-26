@@ -5,9 +5,7 @@ namespace BatiksProject.Models
 {
     public class User
     {
-        [Key] 
-        public int UserId { get; set; }
-
+        [Key]
         public string Username { get; set; }
 
         [JsonIgnore]

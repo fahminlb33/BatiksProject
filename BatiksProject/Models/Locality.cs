@@ -6,7 +6,7 @@ namespace BatiksProject.Models
     public class Locality
     {
         [Key]
-        public string LocaleName { get; set; }
+        public string Name { get; set; }
 
         public ICollection<Batik> Batiks { get; set; }
     }
