@@ -8,6 +8,7 @@ using Microsoft.Extensions.Logging;
 using BatiksProject.Models;
 using Microsoft.AspNetCore.Diagnostics;
 using System.IO;
+using BatiksProject.ViewModels;
 
 namespace BatiksProject.Controllers
 {

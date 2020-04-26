@@ -1,4 +1,5 @@
 ﻿using BatiksProject.Models;
+using BatiksProject.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,12 +10,6 @@ namespace BatiksProject.Controllers
         public IActionResult Index()
         {
             ViewBag.Navbar = NavbarClass.Catalog;
-            return View();
-        }
-
-        public IActionResult Search()
-        {
-            ViewBag.Navbar = NavbarClass.Search;
             return View();
         }
 

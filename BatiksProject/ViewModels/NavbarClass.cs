@@ -1,10 +1,9 @@
-﻿namespace BatiksProject.Models
+﻿namespace BatiksProject.ViewModels
 {
     public enum NavbarClass
     {
         Home,
         Catalog,
-        Search,
         About
     }
 }

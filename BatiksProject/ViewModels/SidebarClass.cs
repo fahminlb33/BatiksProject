@@ -1,4 +1,4 @@
-﻿namespace BatiksProject.Models
+﻿namespace BatiksProject.ViewModels
 {
     public enum SidebarClass
     {
