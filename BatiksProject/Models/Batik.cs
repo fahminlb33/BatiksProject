@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace BatiksProject.Models
 {
@@ -16,6 +15,6 @@ namespace BatiksProject.Models
 
         public string MinioObjectName { get; set; }
 
-        public List<float> Features { get; set; }
+        public string Features { get; set; }
     }
 }

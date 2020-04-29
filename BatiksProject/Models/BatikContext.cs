@@ -8,9 +8,8 @@ namespace BatiksProject.Models
         public DbSet<Locality> Localities { get; set; }
         public DbSet<User> Users { get; set; }
 
-        public BatikContext()
+        public BatikContext( DbContextOptions<BatikContext> options) : base(options)
         {
-
         }
     }
 }
