@@ -24,6 +24,7 @@ namespace BatiksProject.Controllers
         }
 
         [Authorize]
+        [HttpGet]
         public IActionResult Index()
         {
             return View();
@@ -60,6 +61,7 @@ namespace BatiksProject.Controllers
         }
 
         [Authorize]
+        [HttpGet]
         public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);

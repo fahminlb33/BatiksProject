@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using BatiksProject.Models;
 using Microsoft.AspNetCore.Diagnostics;
 using System.IO;
-using BatiksProject.Dto;
+using System.Threading.Tasks;
+using BatiksProject.Services;
 using BatiksProject.ViewModels;
 
 namespace BatiksProject.Controllers
@@ -16,31 +12,30 @@ namespace BatiksProject.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly ICatalogService _catalogService;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, ICatalogService catalogService)
         {
             _logger = logger;
+            _catalogService = catalogService;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             var model = new HomeIndexViewModel
             {
-                LatestBatik = new List<BatikDto>
-                {
-                    new BatikDto{BatikId = 1, ImageUrl = "https://source.unsplash.com/WLUHO9A_xik/800x528", Locality = "Bogor", Title = "Batik 1"},
-                    new BatikDto{BatikId = 1, ImageUrl = "https://source.unsplash.com/WLUHO9A_xik/800x528", Locality = "Bogor", Title = "Batik 1"},
-                    new BatikDto{BatikId = 1, ImageUrl = "https://source.unsplash.com/WLUHO9A_xik/800x528", Locality = "Bogor", Title = "Batik 1"}
-                }
+                LatestBatik = await _catalogService.GetLatestBatik()
             };
 
             ViewBag.Navbar = NavbarClass.Home;
+            _logger.LogDebug("Home controller, Index action.");
             return View(model);
         }
 
         public IActionResult About()
         {
             ViewBag.Navbar = NavbarClass.About;
+            _logger.LogDebug("Home controller, About action.");
             return View();
         }
 
@@ -62,6 +57,7 @@ namespace BatiksProject.Controllers
                     + statusCodeReExecuteFeature.OriginalQueryString;
             }
 
+            _logger.LogError("Status code error: " + code);
             return View(model);
         }
 
@@ -76,6 +72,7 @@ namespace BatiksProject.Controllers
                 ExceptionMessage = exceptionHandlerPathFeature?.Error is FileNotFoundException ? "File error thrown" : ""
             };
 
+            _logger.LogError(exceptionHandlerPathFeature?.Error, "Internal server error");
             return View(model);
         }
 
