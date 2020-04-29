@@ -12,30 +12,24 @@
 
     <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:200,300,400,600,700,800,900&display=swap" rel="stylesheet">
 
-    <link rel="stylesheet" href="~/lib/open-iconic/css/open-iconic-bootstrap.min.css">
     <link rel="stylesheet" href="~/lib/animate/css/animate.css">
-
     <link rel="stylesheet" href="~/lib/owl/css/owl.carousel.min.css">
     <link rel="stylesheet" href="~/lib/owl/css/owl.theme.default.min.css">
     <link rel="stylesheet" href="~/lib/jquery-magnific-popup/magnific-popup.css">
-
     <link rel="stylesheet" href="~/lib/aos/css/aos.css">
-
-    <link rel="stylesheet" href="~/lib/ionicons/css/ionicons.min.css">
-
     <link rel="stylesheet" href="~/lib/bootstrap-datepicker/css/bootstrap-datepicker.css">
     <link rel="stylesheet" href="~/lib/jquery-timepicker/jquery.timepicker.css">
+    <link rel="stylesheet" href="~/lib/font-awesome/css/all.min.css" />
 
-    <link rel="stylesheet" href="~/lib/flaticon/css/flaticon.css">
-    <link rel="stylesheet" href="~/lib/iconmoon/css/icomoon.css">
     <link rel="stylesheet" href="~/css/home.css">
+    <link rel="stylesheet" href="~/css/home-mixin.css">
 </head>
 
 <body>
     <!--- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
         <div class="container">
-            <a class="navbar-brand" href="index.html">Uptown</a>
+            <a class="navbar-brand" href="@Url.Action("Index", "Home")">BatiksProject</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="oi oi-menu"></span> Menu
             </button>
@@ -65,66 +59,8 @@
     <!--- Footer -->
     <footer class="ftco-footer ftco-section">
         <div class="container">
-            <div class="row mb-5">
-                <div class="col-md">
-                    <div class="ftco-footer-widget mb-4">
-                        <h2 class="ftco-heading-2">Uptown</h2>
-                        <p>Far far away, behind the word mountains, far from the countries.</p>
-                        <ul class="ftco-footer-social list-unstyled mt-5">
-                            <li class="ftco-animate"><a href="#"><span class="icon-twitter"></span></a></li>
-                            <li class="ftco-animate"><a href="#"><span class="icon-facebook"></span></a></li>
-                            <li class="ftco-animate"><a href="#"><span class="icon-instagram"></span></a></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-md">
-                    <div class="ftco-footer-widget mb-4 ml-md-4">
-                        <h2 class="ftco-heading-2">Community</h2>
-                        <ul class="list-unstyled">
-                            <li><a href="#"><span class="icon-long-arrow-right mr-2"></span>Search Properties</a></li>
-                            <li><a href="#"><span class="icon-long-arrow-right mr-2"></span>For Agents</a></li>
-                            <li><a href="#"><span class="icon-long-arrow-right mr-2"></span>Reviews</a></li>
-                            <li><a href="#"><span class="icon-long-arrow-right mr-2"></span>FAQs</a></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-md">
-                    <div class="ftco-footer-widget mb-4 ml-md-4">
-                        <h2 class="ftco-heading-2">About Us</h2>
-                        <ul class="list-unstyled">
-                            <li><a href="#"><span class="icon-long-arrow-right mr-2"></span>Our Story</a></li>
-                            <li><a href="#"><span class="icon-long-arrow-right mr-2"></span>Meet the team</a></li>
-                            <li><a href="#"><span class="icon-long-arrow-right mr-2"></span>Careers</a></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-md">
-                    <div class="ftco-footer-widget mb-4">
-                        <h2 class="ftco-heading-2">Company</h2>
-                        <ul class="list-unstyled">
-                            <li><a href="#"><span class="icon-long-arrow-right mr-2"></span>About Us</a></li>
-                            <li><a href="#"><span class="icon-long-arrow-right mr-2"></span>Press</a></li>
-                            <li><a href="#"><span class="icon-long-arrow-right mr-2"></span>Contact</a></li>
-                            <li><a href="#"><span class="icon-long-arrow-right mr-2"></span>Careers</a></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-md">
-                    <div class="ftco-footer-widget mb-4">
-                        <h2 class="ftco-heading-2">Have a Questions?</h2>
-                        <div class="block-23 mb-3">
-                            <ul>
-                                <li><span class="icon icon-map-marker"></span><span class="text">203 Fake St. Mountain View, San Francisco, California, USA</span></li>
-                                <li><a href="#"><span class="icon icon-phone"></span><span class="text">+2 392 3929 210</span></a></li>
-                                <li><a href="#"><span class="icon icon-envelope pr-4"></span><span class="text">info@yourdomain.com</span></a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
             <div class="row">
                 <div class="col-md-12 text-center">
-
                     <p>
                         <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
                         Copyright &copy;
@@ -160,8 +96,9 @@
     <script src="~/lib/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
     <script src="~/lib/jquery-timepicker/jquery.timepicker.min.js"></script>
     <script src="~/lib/scrollax/scrollax.min.js"></script>
+    
+    <script src="~/js/search-form.js"></script>
     <script src="~/js/home.js"></script>
-
 </body>
 
 </html>

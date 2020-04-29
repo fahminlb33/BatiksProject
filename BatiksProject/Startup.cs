@@ -1,7 +1,9 @@
+using BatiksProject.Models;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -32,6 +34,8 @@ namespace BatiksProject
                     x.LogoutPath = new PathString("/admin/logout");
                 });
 
+            services.AddDbContext<BatikContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("BatiksProject")));
             services.Scan(scan => scan
                 .FromApplicationDependencies()
 

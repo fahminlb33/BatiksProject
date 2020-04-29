@@ -1,88 +1,163 @@
-﻿@{
+﻿@model HomeIndexViewModel
+@{
     Layout = "_Layout";
 }
 
 <!-- Header -->
-<header class="bg-primary py-5 mb-5">
-    <div class="container h-100">
-        <div class="row h-100 align-items-center">
-            <div class="col-lg-12">
-                <h1 class="display-4 text-white mt-5 mb-2">Business Name or Tagline</h1>
-                <p class="lead mb-5 text-white-50">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Non possimus ab labore provident mollitia. Id assumenda voluptate earum corporis facere quibusdam quisquam iste ipsa cumque unde nisi, totam quas ipsam.</p>
-            </div>
-        </div>
-    </div>
-</header>
-
-<div class="container">
-
-    <div class="row">
-        <div class="col-md-8 mb-5">
-            <h2>What We Do</h2>
-            <hr>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. A deserunt neque tempore recusandae animi soluta quasi? Asperiores rem dolore eaque vel, porro, soluta unde debitis aliquam laboriosam. Repellat explicabo, maiores!</p>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Omnis optio neque consectetur consequatur magni in nisi, natus beatae quidem quam odit commodi ducimus totam eum, alias, adipisci nesciunt voluptate. Voluptatum.</p>
-            <a class="btn btn-primary btn-lg" href="#">Call to Action &raquo;</a>
-        </div>
-        <div class="col-md-4 mb-5">
-            <h2>Contact Us</h2>
-            <hr>
-            <address>
-                <strong>Start Bootstrap</strong>
-                <br>3481 Melrose Place
-                <br>Beverly Hills, CA 90210
-                <br>
-            </address>
-            <address>
-                <abbr title="Phone">P:</abbr>
-                (123) 456-7890
-                <br>
-                <abbr title="Email">E:</abbr>
-                <a href="mailto:#">name@example.com</a>
-            </address>
-        </div>
-    </div>
-    <!-- /.row -->
-
-    <div class="row">
-        <div class="col-md-4 mb-5">
-            <div class="card h-100">
-                <img class="card-img-top" src="http://placehold.it/300x200" alt="">
-                <div class="card-body">
-                    <h4 class="card-title">Card title</h4>
-                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sapiente esse necessitatibus neque sequi doloribus.</p>
-                </div>
-                <div class="card-footer">
-                    <a href="#" class="btn btn-primary">Find Out More!</a>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4 mb-5">
-            <div class="card h-100">
-                <img class="card-img-top" src="http://placehold.it/300x200" alt="">
-                <div class="card-body">
-                    <h4 class="card-title">Card title</h4>
-                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sapiente esse necessitatibus neque sequi doloribus totam ut praesentium aut.</p>
-                </div>
-                <div class="card-footer">
-                    <a href="#" class="btn btn-primary">Find Out More!</a>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4 mb-5">
-            <div class="card h-100">
-                <img class="card-img-top" src="http://placehold.it/300x200" alt="">
-                <div class="card-body">
-                    <h4 class="card-title">Card title</h4>
-                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sapiente esse necessitatibus neque.</p>
-                </div>
-                <div class="card-footer">
-                    <a href="#" class="btn btn-primary">Find Out More!</a>
+<div class="hero-wrap ftco-degree-bg" style="background-image: url('@Url.Content("img/home-bg.jpg")');" data-stellar-background-ratio="0.5">
+    <div class="overlay"></div>
+    <div class="container">
+        <div class="row no-gutters slider-text justify-content-center align-items-center">
+            <div class="col-lg-8 col-md-6 ftco-animate d-flex align-items-end">
+                <div class="text text-center">
+                    <h1 class="mb-4">Batik'sProject <br>Katalog batik Indonesia</h1>
+                    <p style="font-size: 18px;">
+                        Koleksi motif batik seluruh Indonesia dengan indeks yang 
+                        dapat dicari menggunakan gambar dan kata kunci untuk
+                        memberikan kemudahan pencarian koleksi.
+                    </p>
+                    <partial name="Partial/HomeSearchPartial" model="@new SearchViewModel()"/>
                 </div>
             </div>
         </div>
     </div>
-    <!-- /.row -->
-
+    <div class="mouse">
+        <a href="#" class="mouse-icon">
+            <div class="mouse-wheel"><span class="fa fa-arrow-down"></span></div>
+        </a>
+    </div>
 </div>
-<!-- /.container -->
+
+<!-- Layanan -->
+<section class="ftco-section ftco-no-pb">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-12 heading-section text-center ftco-animate mb-5">
+                <span class="subheading">Layanan Kami</span>
+                <h2 class="mb-2">Katalog batik terlengkap di Indonesia</h2>
+            </div>
+        </div>
+        <div class="row d-flex">
+            <div class="col-md-3 d-flex align-self-stretch ftco-animate">
+                <div class="media block-6 services d-block text-center">
+                    <div class="icon d-flex justify-content-center align-items-center"><span class="fa fa-cubes"></span></div>
+                    <div class="media-body py-md-4">
+                        <h3>Terlengkap</h3>
+                        <p>Kami memiliki koleksi batik terlengkap</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 d-flex align-self-stretch ftco-animate">
+                <div class="media block-6 services d-block text-center">
+                    <div class="icon d-flex justify-content-center align-items-center"><span class="fa fa-upload"></span></div>
+                    <div class="media-body py-md-4">
+                        <h3>Upload</h3>
+                        <p>Anda dapat mencari batik berdasarkan gambar atau foto batik.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 d-flex align-self-stretch ftco-animate">
+                <div class="media block-6 services d-block text-center">
+                    <div class="icon d-flex justify-content-center align-items-center"><span class="fa fa-check-circle"></span></div>
+                    <div class="media-body py-md-4">
+                        <h3>Terpercaya</h3>
+                        <p>Data koleksi kami akurat berdasarkan para ahli.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 d-flex align-self-stretch ftco-animate">
+                <div class="media block-6 services d-block text-center">
+                    <div class="icon d-flex justify-content-center align-items-center"><span class="fa fa-money-bill-wave"></span></div>
+                    <div class="media-body py-md-4">
+                        <h3>Gratis</h3>
+                        <p>Layanan kami gratis dan tidak dipngut biaya apapun.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!--- Koleksi -->
+<section class="ftco-section goto-here">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-12 heading-section text-center ftco-animate mb-5">
+                <span class="subheading">Koleksi Terbaru</span>
+                <h2 class="mb-2">Koleksi terbaru kami</h2>
+            </div>
+        </div>
+        <div class="row">
+            @foreach (var batikDto in Model.LatestBatik)
+            {
+                <div class="col-md-4">
+                    <div class="property-wrap ftco-animate">
+                        <a href="@Url.Action("Detail", "Catalog", new { batikId = batikDto.BatikId})" class="img" style="background-image: url(@batikDto.ImageUrl);"></a>
+                        <div class="text">
+                            <h3><a href="@Url.Action("Detail", "Catalog", new { batikId = batikDto.BatikId})">@batikDto.Title</a></h3>
+                            <span class="location">@batikDto.Locality</span>
+                            <a href="@Url.Action("Detail", "Catalog", new { batikId = batikDto.BatikId})" class="d-flex align-items-center justify-content-center btn-custom">
+                                <span class="fa fa-link"></span>
+                            </a>
+                        </div>
+                    </div>
+                </div>   
+            }
+        </div>
+    </div>
+</section>
+
+<!--- Workflow -->
+<section class="ftco-section ftco-degree-bg services-section img mx-md-5" style="background-image: url(@Url.Content("img/home-services-vertical.jpg"));">
+    <div class="overlay"></div>
+    <div class="container">
+        <div class="row justify-content-start mb-5">
+            <div class="col-md-6 text-center heading-section heading-section-white ftco-animate">
+                <span class="subheading">Cara Kerja</span>
+                <h2 class="mb-3">Bagaimana kami bekerja?</h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="col-md-12 col-lg-6 d-flex align-self-stretch ftco-animate">
+                        <div class="media block-6 services services-2">
+                            <div class="media-body py-md-4 text-center">
+                                <div class="icon mb-3 d-flex align-items-center justify-content-center"><span>01</span></div>
+                                <h3>Buka Batik'sProject</h3>
+                                <p>Kunjungi web Batik'sProject untuk memulai pencarian.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12 col-lg-6 d-flex align-self-stretch ftco-animate">
+                        <div class="media block-6 services services-2">
+                            <div class="media-body py-md-4 text-center">
+                                <div class="icon mb-3 d-flex align-items-center justify-content-center"><span>02</span></div>
+                                <h3>Masukkan Kata Kunci</h3>
+                                <p>Masukkan kata kunci batik yang akan dicari pada form.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12 col-lg-6 d-flex align-self-stretch ftco-animate">
+                        <div class="media block-6 services services-2">
+                            <div class="media-body py-md-4 text-center">
+                                <div class="icon mb-3 d-flex align-items-center justify-content-center"><span>03</span></div>
+                                <h3>Upload Gambar</h3>
+                                <p>Jika Anda ingin mencari informasi batik dari gambar atau foto, klik Upload.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12 col-lg-6 d-flex align-self-stretch ftco-animate">
+                        <div class="media block-6 services services-2">
+                            <div class="media-body py-md-4 text-center">
+                                <div class="icon mb-3 d-flex align-items-center justify-content-center"><span>04</span></div>
+                                <h3>Kunjungi Katalog</h3>
+                                <p>Kunjungi katalog kami untuk melihat koleksi lainnya!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

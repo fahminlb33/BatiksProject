@@ -25,5 +25,15 @@ namespace BatiksProject.Controllers
 
             return View();
         }
+
+        public IActionResult Search(SearchViewModel model)
+        {
+            return View("Index");
+        }
+
+        public IActionResult Detail(int batikId)
+        {
+            return View();
+        }
     }
 }

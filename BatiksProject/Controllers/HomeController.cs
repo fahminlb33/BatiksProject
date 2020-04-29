@@ -8,6 +8,7 @@ using Microsoft.Extensions.Logging;
 using BatiksProject.Models;
 using Microsoft.AspNetCore.Diagnostics;
 using System.IO;
+using BatiksProject.Dto;
 using BatiksProject.ViewModels;
 
 namespace BatiksProject.Controllers
@@ -23,8 +24,18 @@ namespace BatiksProject.Controllers
 
         public IActionResult Index()
         {
+            var model = new HomeIndexViewModel
+            {
+                LatestBatik = new List<BatikDto>
+                {
+                    new BatikDto{BatikId = 1, ImageUrl = "https://source.unsplash.com/WLUHO9A_xik/800x528", Locality = "Bogor", Title = "Batik 1"},
+                    new BatikDto{BatikId = 1, ImageUrl = "https://source.unsplash.com/WLUHO9A_xik/800x528", Locality = "Bogor", Title = "Batik 1"},
+                    new BatikDto{BatikId = 1, ImageUrl = "https://source.unsplash.com/WLUHO9A_xik/800x528", Locality = "Bogor", Title = "Batik 1"}
+                }
+            };
+
             ViewBag.Navbar = NavbarClass.Home;
-            return View();
+            return View(model);
         }
 
         public IActionResult About()
@@ -61,8 +72,8 @@ namespace BatiksProject.Controllers
             var model = new ErrorViewModel
             {
                 RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier,
-                Referrer = HttpContext.Request.Headers["referer"], 
-                ExceptionMessage =  exceptionHandlerPathFeature?.Error is FileNotFoundException ? "File error thrown" :""
+                Referrer = HttpContext.Request.Headers["referer"],
+                ExceptionMessage = exceptionHandlerPathFeature?.Error is FileNotFoundException ? "File error thrown" : ""
             };
 
             return View(model);

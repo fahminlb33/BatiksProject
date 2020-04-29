@@ -1,0 +1,16 @@
+﻿@model SearchViewModel
+
+<form id="cari" class="search-location mt-md-5" enctype="multipart/form-data" method="POST" action="@Url.Action("Search", "Catalog")">
+    <div class="row justify-content-center">
+        <div class="col-lg-10 align-items-end">
+            <div class="form-group">
+                <div class="form-field">
+                    <input type="text" class="form-control" placeholder="Cari disini atau klik upload...">
+                    <input type="file" id="files" name="files" style="display: none;" />
+                    <button id="cari_gambar" class="btn-search-image"><span class="fa fa-upload"></span></button>
+                    <button class="btn-search" type="submit"><span class="fa fa-search"></span></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
