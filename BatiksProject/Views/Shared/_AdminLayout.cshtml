@@ -32,9 +32,6 @@
 
             <!-- Sidebar - Brand -->
             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="@Url.Action("Index", "Admin")">
-                <div class="sidebar-brand-icon rotate-n-15">
-                    <i class="fas fa-laugh-wink"></i>
-                </div>
                 <div class="sidebar-brand-text mx-3">Batik'sProject</div>
             </a>
 
@@ -67,7 +64,7 @@
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Manajemen Pengguna:</h6>
                         <a class="collapse-item @IsCurrentPage(SidebarClass.UserAddOrEdit)" href="@Url.Action("Add", "User")">Tambah</a>
-                        <a class="collapse-item @IsCurrentPage(SidebarClass.BatikManage)" href="@Url.Action("Index", "User")">Daftar Pengguna</a>
+                        <a class="collapse-item @IsCurrentPage(SidebarClass.UserManage)" href="@Url.Action("Index", "User")">Daftar Pengguna</a>
                     </div>
                 </div>
             </li>

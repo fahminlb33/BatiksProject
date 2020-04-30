@@ -1,3 +1,54 @@
-﻿@{
+﻿@model UserManageViewModel
+@{
     Layout = "_AdminLayout";
 }
+
+<!-- Page Heading -->
+<h1 class="h3 mb-2 text-gray-800">Data Pengguna</h1>
+<p class="mb-4">Manajemen admin pengguna Batik'sProject.</p>
+
+<!-- DataTales Example -->
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Data Pengguna</h6>
+    </div>
+    <div class="card-body">
+        @if (ViewBag.Message != null)
+        {
+            <div class="alert alert-@ViewBag.AlertClass alert-dismissible fade show" role="alert">
+                @ViewBag.Message
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        }
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                <tr>
+                    <th>Username</th>
+                    <th>Aksi</th>
+                </tr>
+                </thead>
+                <tfoot>
+                <tr>
+                    <th>Username</th>
+                    <th>Aksi</th>
+                </tr>
+                </tfoot>
+                <tbody>
+                @foreach (var item in Model.Users)
+                {
+                    <tr>
+                        <td>@item.Username</td>
+                        <td>
+                            <a class="btn btn-outline-warning" href="@Url.Action("Edit", new {userId = item.UserId})">Edit</a>
+                            <a class="btn btn-outline-danger" href="@Url.Action("Delete", new {userId = item.UserId})">Hapus</a>
+                        </td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

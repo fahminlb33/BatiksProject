@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using BatiksProject.Dto;
 using BatiksProject.Models;
+using BatiksProject.ViewModels;
 using Microsoft.EntityFrameworkCore;
 
 namespace BatiksProject.Services

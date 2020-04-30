@@ -1,62 +1,109 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using AutoMapper;
 using BatiksProject.Dto;
 using BatiksProject.Infrastructure;
 using BatiksProject.Models;
+using EntityFramework.Exceptions.Common;
 using Microsoft.EntityFrameworkCore;
 
 namespace BatiksProject.Services
 {
     public interface IUserService
     {
-        Task Register(User user);
-        Task Unregister(User user);
+        Task<UserDto> Get(int userId);
+        Task<IEnumerable<UserDto>> GetAll();
+        Task Add(User user);
+        Task Remove(string username);
         Task Update(User user);
-        Task<UserVerifyDto> Verify(string username, string password);
+        Task<UserDto> Verify(string username, string password);
     }
 
     public class UserService : IUserService
     {
         private readonly SHA256 _hasher;
+        private readonly IMapper _mapper;
         private readonly BatikContext _batikContext;
 
-        public UserService(BatikContext batikContext)
+        public UserService(BatikContext batikContext, IMapper mapper)
         {
             _batikContext = batikContext;
+            _mapper = mapper;
             _hasher = new SHA256Managed();
         }
 
-        public async Task Register(User user)
+        public async Task<UserDto> Get(int userId)
         {
-            var result = await _batikContext.Users.Where(x => x.Username == user.Username).ToListAsync();
-            if (result != null)
-            {
-                throw new ServicesException("Username sudah digunakan.");
-            }
-
-            var passwordBytes = Encoding.UTF8.GetBytes(user.Password);
-            user.Password = Convert.ToBase64String(_hasher.ComputeHash(passwordBytes));
-
-            await _batikContext.Users.AddAsync(user);
-            await _batikContext.SaveChangesAsync();
+            var entity = await _batikContext.Users.FindAsync(userId);
+            return _mapper.Map<UserDto>(entity);
         }
 
-        public async Task Unregister(User user)
+        public async Task<IEnumerable<UserDto>> GetAll()
         {
-            throw new NotImplementedException();
+            var list = await _batikContext.Users.ToListAsync();
+            return _mapper.Map<List<UserDto>>(list);
+        }
+
+        public async Task Add(User user)
+        {
+            try
+            {
+                var result = await _batikContext.Users.AnyAsync(x => x.Username == user.Username);
+                if (result)
+                {
+                    throw new ServicesException("Username sudah digunakan.");
+                }
+
+                var passwordBytes = Encoding.UTF8.GetBytes(user.Password);
+                user.Password = Convert.ToBase64String(_hasher.ComputeHash(passwordBytes));
+
+                await _batikContext.Users.AddAsync(user);
+                await _batikContext.SaveChangesAsync();
+            }
+            catch (UniqueConstraintException)
+            {
+                throw new ServicesException("Admin dengan username yang sama sudah terdaftar.");
+            }
+        }
+
+        public async Task Remove(string user)
+        {
+            var entry = await _batikContext.Users.FindAsync(user);
+            _batikContext.Users.Remove(entry);
+            await _batikContext.SaveChangesAsync();
         }
 
         public async Task Update(User user)
         {
-            throw new NotImplementedException();
+            try
+            {
+                _batikContext.Attach(user);
+
+                var entry = _batikContext.Entry(user);
+                entry.Property(x => x.Username).IsModified = true;
+                entry.Property(x => x.Password).IsModified = false;
+                if (!string.IsNullOrWhiteSpace(user.Password))
+                {
+                    var passwordBytes = Encoding.UTF8.GetBytes(user.Password);
+                    user.Password = Convert.ToBase64String(_hasher.ComputeHash(passwordBytes));
+                    entry.Property(x => x.Password).IsModified = true;
+                }
+
+                await _batikContext.SaveChangesAsync();
+            }
+            catch (UniqueConstraintException)
+            {
+                throw new ServicesException("Admin dengan username yang sama sudah terdaftar.");
+            }
         }
 
-        public async Task<UserVerifyDto> Verify(string username, string password)
+        public async Task<UserDto> Verify(string username, string password)
         {
-            var result = await _batikContext.Users.Where(x => x.Username == username).SingleOrDefaultAsync();
+            var result = await _batikContext.Users.SingleOrDefaultAsync(x => x.Username == username);
             if (result == null)
             {
                 throw new ServicesException("Username atau password salah.");
@@ -69,7 +116,7 @@ namespace BatiksProject.Services
                 throw new ServicesException("Username atau password salah.");
             }
 
-            return new UserVerifyDto(username);
+            return _mapper.Map<UserDto>(result);
         }
     }
 }

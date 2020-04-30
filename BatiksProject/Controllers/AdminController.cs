@@ -45,6 +45,7 @@ namespace BatiksProject.Controllers
                 var result = await _userService.Verify(model.Username, model.Password);
                 var claims = new List<Claim>
                 {
+                    new Claim(ClaimTypes.NameIdentifier, result.UserId.ToString()),
                     new Claim(ClaimTypes.Name,result.Username),
                     new Claim(ClaimTypes.Role, "User"),
                 };

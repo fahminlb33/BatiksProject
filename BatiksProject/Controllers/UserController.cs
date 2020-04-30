@@ -1,47 +1,156 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
+using AutoMapper;
+using BatiksProject.Infrastructure;
+using BatiksProject.Models;
+using BatiksProject.Services;
 using BatiksProject.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 namespace BatiksProject.Controllers
 {
     public class UserController : Controller
     {
-        [Authorize]
-        public IActionResult Index()
+        private readonly ILogger<UserController> _logger;
+        private readonly IUserService _userService;
+        private readonly IMapper _mapper;
+
+        public UserController(ILogger<UserController> logger, IUserService userService, IMapper mapper)
         {
+            _logger = logger;
+            _userService = userService;
+            _mapper = mapper;
+        }
+
+        [Authorize]
+        public async Task<IActionResult> Index()
+        {
+            var model = new UserManageViewModel
+            {
+                Users = await _userService.GetAll()
+            };
+
             ViewBag.Sidebar = SidebarClass.UserManage;
-            return View("Manage");
+            return View("Manage", model);
         }
 
         [Authorize]
         public IActionResult Profile()
         {
+            var model = new UserEditViewModel
+            {
+                UserId = Convert.ToInt32(HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)),
+                Username = HttpContext.User.FindFirstValue(ClaimTypes.Name),
+                IsEdit = true
+            };
+
             ViewBag.Sidebar = SidebarClass.UserAddOrEdit;
-            return View("Edit");
+            return View("Edit", model);
         }
 
         [Authorize]
         public IActionResult Add()
         {
             ViewBag.Sidebar = SidebarClass.UserAddOrEdit;
-            return View("Edit");
+            return View("Edit", new UserEditViewModel {IsEdit = false});
         }
 
         [Authorize]
-        public IActionResult Edit(int userId)
+        public async Task<IActionResult> Edit(int userId)
         {
-            ViewBag.Sidebar = SidebarClass.UserAddOrEdit;
-            return View();
+            try
+            {
+                var user = await _userService.Get(userId);
+                var model = new UserEditViewModel
+                {
+                    UserId = user.UserId,
+                    Username = user.Username,
+                    IsEdit = true
+                };
+
+                ViewBag.Sidebar = SidebarClass.UserAddOrEdit;
+                return View("Edit", model);
+            }
+            catch (ServicesException serviceException)
+            {
+                ViewBag.Message = serviceException.Message;
+                ViewBag.AlertClass = "warning";
+                return View("Manage");
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, "Error when deleting entry");
+
+                ViewBag.Message = "Server mengalami masalah. Coba lagi nanti.";
+                ViewBag.AlertClass = "danger";
+                return View("Manage");
+            }
         }
 
         [Authorize]
-        public IActionResult Save()
+        public async Task<IActionResult> Delete(string username)
         {
-            return RedirectToActionPermanent("Index");
+            try
+            {
+                await _userService.Remove(username);
+
+                ViewBag.Sidebar = SidebarClass.UserAddOrEdit;
+                ViewBag.Message = "Akun telah dihapus.";
+                ViewBag.AlertClass = "success";
+                return View("Manage");
+            }
+            catch (ServicesException serviceException)
+            {
+                ViewBag.Message = serviceException.Message;
+                ViewBag.AlertClass = "warning";
+                return View("Manage");
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, "Error when deleting entry");
+
+                ViewBag.Message = "Server mengalami masalah. Coba lagi nanti.";
+                ViewBag.AlertClass = "danger";
+                return View("Manage");
+            }
+        }
+
+        [Authorize]
+        public async Task<IActionResult> Save(UserEditViewModel model)
+        {
+            try
+            {
+                var entity = _mapper.Map<User>(model);
+                if (model.IsEdit)
+                {
+                    await _userService.Update(entity);
+                }
+                else
+                {
+                    await _userService.Add(entity);
+                }
+
+                ViewBag.Message = "Perubahan telah disimpan.";
+                ViewBag.AlertClass = "success";
+                return View("Manage");
+            }
+            catch (ServicesException serviceException)
+            {
+                ViewBag.Message = serviceException.Message;
+                ViewBag.AlertClass = "warning";
+                return View("Manage");
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, "Error when saving entry");
+
+                ViewBag.Message = "Server mengalami masalah. Coba lagi nanti.";
+                ViewBag.AlertClass = "danger";
+                return View("Manage");
+            }
         }
     }
 }
