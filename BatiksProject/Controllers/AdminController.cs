@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using AutoMapper;
 using BatiksProject.Infrastructure;
-using BatiksProject.Models;
 using BatiksProject.Services;
 using BatiksProject.ViewModels;
 using Microsoft.AspNetCore.Authentication;
@@ -16,24 +14,36 @@ namespace BatiksProject.Controllers
 {
     public class AdminController : Controller
     {
+        private readonly IMapper _mapper;
+        private readonly IAdminService _adminService;
         private readonly IUserService _userService;
 
-        public AdminController(IUserService userService)
+        public AdminController(IMapper mapper, IUserService userService, IAdminService adminService)
         {
+            _mapper = mapper;
             _userService = userService;
+            _adminService = adminService;
         }
 
         [Authorize]
         [HttpGet]
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
+            var summary = await _adminService.GetSummary();
+            var model = _mapper.Map<DashboardViewModel>(summary);
+
             ViewBag.Sidebar = SidebarClass.Dashboard;
-            return View();
+            return View(model);
         }
 
         [HttpGet]
         public IActionResult Login()
         {
+            if (HttpContext.User.Identity.IsAuthenticated)
+            {
+                return RedirectToActionPermanent("Index");
+            }
+
             return View();
         }
 

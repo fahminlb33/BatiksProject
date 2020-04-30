@@ -17,6 +17,7 @@ namespace BatiksProject.Services
     {
         Task<UserDto> Get(int userId);
         Task<IEnumerable<UserDto>> GetAll();
+        Task<int> CountAll();
         Task Add(User user);
         Task Remove(string username);
         Task Update(User user);
@@ -46,6 +47,11 @@ namespace BatiksProject.Services
         {
             var list = await _batikContext.Users.ToListAsync();
             return _mapper.Map<List<UserDto>>(list);
+        }
+
+        public async Task<int> CountAll()
+        {
+            return await _batikContext.Users.CountAsync();
         }
 
         public async Task Add(User user)

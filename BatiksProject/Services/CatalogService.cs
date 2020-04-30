@@ -13,6 +13,7 @@ namespace BatiksProject.Services
     {
         Task<IEnumerable<BatikDto>> GetLatestBatik();
         Task<IEnumerable<BatikDto>> GetAll();
+        Task<int> CountAll();
     }
 
     public class CatalogService : ICatalogService
@@ -36,6 +37,11 @@ namespace BatiksProject.Services
         {
             var list = await _batikContext.Batiks.OrderByDescending(x => x.BatikId).ToListAsync();
             return _mapper.Map<List<Batik>, List<BatikDto>>(list);
+        }
+
+        public async Task<int> CountAll()
+        {
+            return await _batikContext.Batiks.CountAsync();
         }
     }
 }

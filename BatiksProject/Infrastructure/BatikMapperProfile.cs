@@ -9,6 +9,9 @@ namespace BatiksProject.Infrastructure
     {
         public BatikMapperProfile()
         {
+            // Dashboard
+            CreateMap<DashboardDto, DashboardViewModel>();
+
             // Users
             CreateMap<User, UserDto>();
             CreateMap<User, UserEditViewModel>()
