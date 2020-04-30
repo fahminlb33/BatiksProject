@@ -1,3 +1,4 @@
+using AutoMapper;
 using BatiksProject.Models;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
@@ -36,6 +37,8 @@ namespace BatiksProject
 
             services.AddDbContext<BatikContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("BatiksProject")));
+
+            services.AddAutoMapper(typeof(Startup));
             services.Scan(scan => scan
                 .FromApplicationDependencies()
 
