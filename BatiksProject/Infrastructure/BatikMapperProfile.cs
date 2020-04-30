@@ -16,7 +16,14 @@ namespace BatiksProject.Infrastructure
             CreateMap<User, UserDto>();
             CreateMap<User, UserEditViewModel>()
                 .ForMember(dest => dest.Password, expr => expr.Ignore());
+            CreateMap<UserDto, UserEditViewModel>();
             CreateMap<UserEditViewModel, User>();
+
+            // Locality
+            CreateMap<Locality, LocalityDto>();
+            CreateMap<Locality, LocalityEditViewModel>();
+            CreateMap<LocalityDto, LocalityEditViewModel>();
+            CreateMap<LocalityEditViewModel, Locality>();
 
             // Batik
             CreateMap<Batik, BatikDto>()
