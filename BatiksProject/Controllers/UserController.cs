@@ -32,7 +32,7 @@ namespace BatiksProject.Controllers
             {
                 Users = await _userService.GetAll()
             };
-
+            
             ViewBag.Sidebar = SidebarClass.UserManage;
             return View("Manage", model);
         }
@@ -64,12 +64,8 @@ namespace BatiksProject.Controllers
             try
             {
                 var user = await _userService.Get(userId);
-                var model = new UserEditViewModel
-                {
-                    UserId = user.UserId,
-                    Username = user.Username,
-                    IsEdit = true
-                };
+                var model = _mapper.Map<UserEditViewModel>(user);
+                model.IsEdit = true;
 
                 ViewBag.Sidebar = SidebarClass.UserAddOrEdit;
                 return View("Edit", model);
@@ -78,7 +74,6 @@ namespace BatiksProject.Controllers
             {
                 ViewBag.Message = serviceException.Message;
                 ViewBag.AlertClass = "warning";
-                return View("Manage");
             }
             catch (Exception e)
             {
@@ -86,27 +81,25 @@ namespace BatiksProject.Controllers
 
                 ViewBag.Message = "Server mengalami masalah. Coba lagi nanti.";
                 ViewBag.AlertClass = "danger";
-                return View("Manage");
             }
+
+            return await Index();
         }
 
         [Authorize]
-        public async Task<IActionResult> Delete(string username)
+        public async Task<IActionResult> Delete(int userId)
         {
             try
             {
-                await _userService.Remove(username);
+                await _userService.Remove(userId);
 
-                ViewBag.Sidebar = SidebarClass.UserAddOrEdit;
                 ViewBag.Message = "Akun telah dihapus.";
                 ViewBag.AlertClass = "success";
-                return View("Manage");
             }
             catch (ServicesException serviceException)
             {
                 ViewBag.Message = serviceException.Message;
                 ViewBag.AlertClass = "warning";
-                return View("Manage");
             }
             catch (Exception e)
             {
@@ -114,8 +107,9 @@ namespace BatiksProject.Controllers
 
                 ViewBag.Message = "Server mengalami masalah. Coba lagi nanti.";
                 ViewBag.AlertClass = "danger";
-                return View("Manage");
             }
+
+            return await Index();
         }
 
         [Authorize]
@@ -135,13 +129,11 @@ namespace BatiksProject.Controllers
 
                 ViewBag.Message = "Perubahan telah disimpan.";
                 ViewBag.AlertClass = "success";
-                return View("Manage");
             }
             catch (ServicesException serviceException)
             {
                 ViewBag.Message = serviceException.Message;
                 ViewBag.AlertClass = "warning";
-                return View("Manage");
             }
             catch (Exception e)
             {
@@ -149,8 +141,9 @@ namespace BatiksProject.Controllers
 
                 ViewBag.Message = "Server mengalami masalah. Coba lagi nanti.";
                 ViewBag.AlertClass = "danger";
-                return View("Manage");
             }
+
+            return await Index();
         }
     }
 }
