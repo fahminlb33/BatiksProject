@@ -1,8 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace BatiksProject.Migrations
 {
-    public partial class Initial : Migration
+    public partial class InitialMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -35,11 +36,11 @@ namespace BatiksProject.Migrations
                 {
                     BatikId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Title = table.Column<string>(nullable: true),
+                    Title = table.Column<string>(nullable: false),
                     Description = table.Column<string>(nullable: true),
-                    LocalityName = table.Column<string>(nullable: true),
-                    MinioObjectName = table.Column<string>(nullable: true),
-                    Features = table.Column<string>(nullable: true)
+                    LocalityName = table.Column<string>(nullable: false),
+                    MinioObjectName = table.Column<string>(nullable: false),
+                    Features = table.Column<byte[]>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -49,8 +50,13 @@ namespace BatiksProject.Migrations
                         column: x => x.LocalityName,
                         principalTable: "Localities",
                         principalColumn: "Name",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.InsertData(
+                table: "Users",
+                columns: new[] { "Username", "Password" },
+                values: new object[] { "admin", "jGl25bVBBBW96Qi9Te4V37Fnqchz/Eu4qB9vKrRIqRg=" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Batiks_LocalityName",

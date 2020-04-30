@@ -11,5 +11,14 @@ namespace BatiksProject.Models
         public BatikContext( DbContextOptions<BatikContext> options) : base(options)
         {
         }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<User>().HasData(new User
+            {
+                Username = "admin",
+                Password = "jGl25bVBBBW96Qi9Te4V37Fnqchz/Eu4qB9vKrRIqRg="
+            });
+        }
     }
 }
