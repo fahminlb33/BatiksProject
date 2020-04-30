@@ -21,34 +21,36 @@ namespace BatiksProject.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            if (HttpContext.User.Identity.IsAuthenticated)
+            var model = new CatalogIndexViewModel
             {
-                return View("Manage");
-            }
-            else
-            {
-                var model = new CatalogIndexViewModel
-                {
-                    Items =  await _catalogService.GetAll()
-                };
+                Items =  await _catalogService.GetAll()
+            };
 
-                ViewBag.Navbar = NavbarClass.Catalog;
-                return View(model);
-            }
+            ViewBag.Navbar = NavbarClass.Catalog;
+            return View(model);
         }
 
         [Authorize]
         [HttpGet]
         public IActionResult Manage()
         {
+            ViewBag.Sidebar = SidebarClass.BatikManage;
             return View();
         }
 
         [Authorize]
         [HttpGet]
-        public IActionResult Edit()
+        public IActionResult Add()
         {
+            ViewBag.Sidebar = SidebarClass.BatikAddOrEdit;
+            return View("Edit");
+        }
 
+        [Authorize]
+        [HttpGet]
+        public IActionResult Edit(string locality)
+        {
+            ViewBag.Sidebar = SidebarClass.BatikAddOrEdit;
             return View();
         }
 
@@ -62,6 +64,7 @@ namespace BatiksProject.Controllers
         [HttpGet]
         public IActionResult Detail(int batikId)
         {
+            ViewBag.Navbar = NavbarClass.Catalog;
             return View();
         }
     }

@@ -20,6 +20,10 @@
                                 <div class="text-center">
                                     <h1 class="h4 text-gray-900 mb-4">Halo!</h1>
                                 </div>
+                                @if (ViewBag.Message != null)
+                                {
+                                    <p>@ViewBag.Message</p>
+                                }
                                 <form class="user" asp-action="Login" method="post">
                                     <div class="form-group">
                                         <input type="text" class="form-control form-control-user" placeholder="Username" asp-for="Username">

@@ -7,7 +7,10 @@
         UserManage,
         UserAddOrEdit,
 
-        ProductManage,
-        ProductAddOrEdit
+        LocalityManage,
+        LocalityAddOrEdit,
+
+        BatikManage,
+        BatikAddOrEdit
     }
 }

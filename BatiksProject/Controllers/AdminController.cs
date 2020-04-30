@@ -27,6 +27,7 @@ namespace BatiksProject.Controllers
         [HttpGet]
         public IActionResult Index()
         {
+            ViewBag.Sidebar = SidebarClass.Dashboard;
             return View();
         }
 
@@ -56,7 +57,8 @@ namespace BatiksProject.Controllers
             }
             catch (ServicesException e)
             {
-                return Unauthorized(e.Message);
+                ViewBag.Message = e.Message;
+                return View("Login");
             }
         }
 
