@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,7 +18,7 @@ namespace BatiksProject.Services
         Task<IEnumerable<UserDto>> GetAll();
         Task<int> CountAll();
         Task Add(User user);
-        Task Remove(string username);
+        Task Remove(int userId);
         Task Update(User user);
         Task<UserDto> Verify(string username, string password);
     }
@@ -58,12 +57,6 @@ namespace BatiksProject.Services
         {
             try
             {
-                var result = await _batikContext.Users.AnyAsync(x => x.Username == user.Username);
-                if (result)
-                {
-                    throw new ServicesException("Username sudah digunakan.");
-                }
-
                 var passwordBytes = Encoding.UTF8.GetBytes(user.Password);
                 user.Password = Convert.ToBase64String(_hasher.ComputeHash(passwordBytes));
 
@@ -76,9 +69,9 @@ namespace BatiksProject.Services
             }
         }
 
-        public async Task Remove(string user)
+        public async Task Remove(int userId)
         {
-            var entry = await _batikContext.Users.FindAsync(user);
+            var entry = await _batikContext.Users.FindAsync(userId);
             _batikContext.Users.Remove(entry);
             await _batikContext.SaveChangesAsync();
         }

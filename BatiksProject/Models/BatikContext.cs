@@ -9,7 +9,7 @@ namespace BatiksProject.Models
         public DbSet<Locality> Localities { get; set; }
         public DbSet<User> Users { get; set; }
 
-        public BatikContext( DbContextOptions<BatikContext> options) : base(options)
+        public BatikContext(DbContextOptions<BatikContext> options) : base(options)
         {
         }
 
@@ -20,6 +20,14 @@ namespace BatiksProject.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<User>()
+                .HasIndex(u => u.Username)
+                .IsUnique();
+
+            modelBuilder.Entity<Locality>()
+                .HasIndex(u => u.Name)
+                .IsUnique();
+
             modelBuilder.Entity<User>().HasData(new User
             {
                 UserId = 1,
