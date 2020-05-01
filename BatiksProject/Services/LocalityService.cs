@@ -4,6 +4,7 @@ using AutoMapper;
 using BatiksProject.Dto;
 using BatiksProject.Infrastructure;
 using BatiksProject.Models;
+using BatiksProject.ViewModels;
 using EntityFramework.Exceptions.Common;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,9 +14,11 @@ namespace BatiksProject.Services
     {
         Task<IEnumerable<LocalityDto>> GetAll();
         Task<LocalityDto> Get(int localityId);
-        Task Add(Locality locality);
+        Task<int> CountAll();
+
+        Task Add(LocalityEditViewModel model);
+        Task Update(LocalityEditViewModel model);
         Task Remove(int localityId);
-        Task Update(Locality locality);
     }
 
     public class LocalityService : ILocalityService
@@ -41,11 +44,32 @@ namespace BatiksProject.Services
             return _mapper.Map<LocalityDto>(entity);
         }
 
-        public async Task Add(Locality locality)
+        public async Task<int> CountAll()
+        {
+            return await _batikContext.Localities.CountAsync();
+        }
+
+        public async Task Add(LocalityEditViewModel model)
         {
             try
             {
+                var locality = _mapper.Map<Locality>(model);
                 await _batikContext.Localities.AddAsync(locality);
+                await _batikContext.SaveChangesAsync();
+            }
+            catch (UniqueConstraintException)
+            {
+                throw new ServicesException("Daerah dengan nama yang sama sudah terdaftar.");
+            }
+        }
+
+        public async Task Update(LocalityEditViewModel model)
+        {
+            try
+            {
+                var locality = _mapper.Map<Locality>(model);
+                _batikContext.Attach(locality);
+                _batikContext.Entry(locality).State = EntityState.Modified;
                 await _batikContext.SaveChangesAsync();
             }
             catch (UniqueConstraintException)
@@ -59,20 +83,6 @@ namespace BatiksProject.Services
             var entry = await _batikContext.Localities.FindAsync(localityId);
             _batikContext.Localities.Remove(entry);
             await _batikContext.SaveChangesAsync();
-        }
-
-        public async Task Update(Locality locality)
-        {
-            try
-            {
-                _batikContext.Attach(locality);
-                _batikContext.Entry(locality).State = EntityState.Modified;
-                await _batikContext.SaveChangesAsync();
-            }
-            catch (UniqueConstraintException)
-            {
-                throw new ServicesException("Daerah dengan nama yang sama sudah terdaftar.");
-            }
         }
     }
 }

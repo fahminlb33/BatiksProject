@@ -3,7 +3,6 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
 using BatiksProject.Infrastructure;
-using BatiksProject.Models;
 using BatiksProject.Services;
 using BatiksProject.ViewModels;
 using Microsoft.AspNetCore.Authorization;
@@ -26,6 +25,7 @@ namespace BatiksProject.Controllers
         }
 
         [Authorize]
+        [HttpGet]
         public async Task<IActionResult> Index()
         {
             var model = new UserManageViewModel
@@ -38,6 +38,7 @@ namespace BatiksProject.Controllers
         }
 
         [Authorize]
+        [HttpGet]
         public IActionResult Profile()
         {
             var model = new UserEditViewModel
@@ -52,6 +53,7 @@ namespace BatiksProject.Controllers
         }
 
         [Authorize]
+        [HttpGet]
         public IActionResult Add()
         {
             ViewBag.Sidebar = SidebarClass.UserAddOrEdit;
@@ -59,6 +61,7 @@ namespace BatiksProject.Controllers
         }
 
         [Authorize]
+        [HttpGet]
         public async Task<IActionResult> Edit(int userId)
         {
             try
@@ -77,7 +80,7 @@ namespace BatiksProject.Controllers
             }
             catch (Exception e)
             {
-                _logger.LogError(e, "Error when deleting entry");
+                _logger.LogError(e, "Error when querying entry");
 
                 ViewBag.Message = "Server mengalami masalah. Coba lagi nanti.";
                 ViewBag.AlertClass = "danger";
@@ -87,6 +90,7 @@ namespace BatiksProject.Controllers
         }
 
         [Authorize]
+        [HttpGet]
         public async Task<IActionResult> Delete(int userId)
         {
             try
@@ -113,18 +117,18 @@ namespace BatiksProject.Controllers
         }
 
         [Authorize]
+        [HttpPost]
         public async Task<IActionResult> Save(UserEditViewModel model)
         {
             try
             {
-                var entity = _mapper.Map<User>(model);
                 if (model.IsEdit)
                 {
-                    await _userService.Update(entity);
+                    await _userService.Update(model);
                 }
                 else
                 {
-                    await _userService.Add(entity);
+                    await _userService.Add(model);
                 }
 
                 ViewBag.Message = "Perubahan telah disimpan.";

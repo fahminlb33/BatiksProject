@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 using AutoMapper;
 using BatiksProject.Infrastructure;
-using BatiksProject.Models;
 using BatiksProject.Services;
 using BatiksProject.ViewModels;
 using Microsoft.AspNetCore.Authorization;
@@ -75,6 +74,7 @@ namespace BatiksProject.Controllers
         }
 
         [Authorize]
+        [HttpGet]
         public async Task<IActionResult> Delete(int localityId)
         {
             try
@@ -106,14 +106,13 @@ namespace BatiksProject.Controllers
         {
             try
             {
-                var entity = _mapper.Map<Locality>(model);
                 if (model.IsEdit)
                 {
-                    await _localityService.Update(entity);
+                    await _localityService.Update(model);
                 }
                 else
                 {
-                    await _localityService.Add(entity);
+                    await _localityService.Add(model);
                 }
 
                 ViewBag.Message = "Perubahan telah disimpan.";

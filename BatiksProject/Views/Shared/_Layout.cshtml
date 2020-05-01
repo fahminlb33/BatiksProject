@@ -45,7 +45,9 @@
                         <a href="@Url.Action("About", "Home")" class="nav-link">About</a>
                     </li>
                     <li class="nav-item">
-                        <a href="@Url.Action("Index", "Admin")" class="nav-link">Admin</a>
+                        <a href="@Url.Action("Index", "Admin")" class="nav-link">
+                            @(HttpContextAccessor.HttpContext.User.Identity.IsAuthenticated ? "Dashboard" : "Login")
+                        </a>
                     </li>
                 </ul>
             </div>

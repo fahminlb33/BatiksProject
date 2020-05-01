@@ -20,6 +20,7 @@ namespace BatiksProject.Controllers
             _catalogService = catalogService;
         }
 
+        [HttpGet]
         public async Task<IActionResult> Index()
         {
             var model = new HomeIndexViewModel
@@ -32,6 +33,7 @@ namespace BatiksProject.Controllers
             return View(model);
         }
 
+        [HttpGet]
         public IActionResult About()
         {
             ViewBag.Navbar = NavbarClass.About;
@@ -40,6 +42,7 @@ namespace BatiksProject.Controllers
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        [HttpGet]
         public IActionResult StatusCode([FromQuery] string code)
         {
             var model = new StatusCodeViewModel
@@ -62,6 +65,7 @@ namespace BatiksProject.Controllers
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        [HttpGet]
         public IActionResult Error()
         {
             var exceptionHandlerPathFeature = HttpContext.Features.Get<IExceptionHandlerPathFeature>();
