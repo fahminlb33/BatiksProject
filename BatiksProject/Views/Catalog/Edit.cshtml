@@ -1,3 +1,59 @@
-﻿@{
+﻿@model CatalogEditViewModel
+@{
     Layout = "_AdminLayout";
 }
+
+
+<!-- Page Heading -->
+<h1 class="h3 mb-2 text-gray-800">@(Model.IsEdit ? "Edit" : "Tambah") Batik</h1>
+<p class="mb-4">@(Model.IsEdit ? "Edit" : "Tambah") data koleksi batik.</p>
+
+<!-- DataTales Example -->
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Katalog Batik</h6>
+    </div>
+    <div class="card-body">
+        <form asp-action="Save" method="post" enctype="multipart/form-data">
+            <input type="hidden" asp-for="IsEdit" />
+            <input type="hidden" asp-for="BatikId" />
+
+            <div class="form-group row">
+                <label for="intputTitle" class="col-sm-2 col-form-label">Judul</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="intputTitle" asp-for="Title" required>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="inputDaerah" class="col-sm-2 col-form-label">Daerah</label>
+                <div class="col-sm-10">
+                    <select id="inputDaerah" class="form-control" asp-for="LocalityId" asp-items="Model.Localities" required></select>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="inputDesc" class="col-sm-2 col-form-label">Description</label>
+                <div class="col-sm-10">
+                    <textarea class="form-control" id="inputDesc" rows="3" asp-for="Description"></textarea>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="inputFile" class="col-sm-2 col-form-label">Gambar Batik</label>
+                <div class="col-sm-10">
+                    <div class="custom-file mb-2">
+                        <input type="file" class="custom-file-input" id="inputFile" asp-for="Image">
+                        <label class="custom-file-label" for="inputFile">Choose file</label>
+                    </div>
+                    @if (Model.UploadName != null)
+                    {
+                        <img class="img img-fluid" src="@Url.Content($"~/upload/{Model.UploadName}")" alt="" />
+                    }
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-10">
+                    <button type="submit" class="btn btn-primary">Simpan</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

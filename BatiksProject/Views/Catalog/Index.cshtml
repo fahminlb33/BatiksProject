@@ -21,7 +21,7 @@
             {
                 <div class="col-md-4">
                     <div class="property-wrap ftco-animate">
-                        <a href="@Url.Action("Detail", "Catalog", new {batikId = item.BatikId})" class="img" style="background-image: url(@item.ImageUrl);"></a>
+                        <a href="@Url.Action("Detail", "Catalog", new {batikId = item.BatikId})" class="img" style="background-image: url(@Url.Content($"~/upload/{item.UploadName}"));"></a>
                         <div class="text">
                             <h3><a href="@Url.Action("Detail", "Catalog", new {batikId = item.BatikId})">@item.Title</a></h3>
                             <span class="location">@item.Locality</span>

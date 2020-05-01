@@ -27,8 +27,11 @@ namespace BatiksProject.Infrastructure
 
             // Batik
             CreateMap<Batik, BatikDto>()
-                .ForMember(dest => dest.ImageUrl, expr => expr.MapFrom(x => "http://127.0.0.1/" + x.MinioObjectName))
                 .ForMember(dest => dest.Locality, expr => expr.MapFrom(x => x.Locality.Name));
+            CreateMap<Batik, CatalogEditViewModel>();
+            CreateMap<BatikDto, CatalogDetailViewModel>();
+            CreateMap<BatikDto, CatalogEditViewModel>();
+            CreateMap<CatalogEditViewModel, Batik>();
         }
     }
 }

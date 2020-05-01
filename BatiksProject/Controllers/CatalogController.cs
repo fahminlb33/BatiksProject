@@ -1,8 +1,13 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Linq;
+using System.Threading.Tasks;
+using AutoMapper;
+using BatiksProject.Infrastructure;
 using BatiksProject.Services;
 using BatiksProject.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
 
 namespace BatiksProject.Controllers
@@ -11,11 +16,15 @@ namespace BatiksProject.Controllers
     {
         private readonly ILogger<CatalogController> _logger;
         private readonly ICatalogService _catalogService;
+        private readonly ILocalityService _localityService;
+        private readonly IMapper _mapper;
 
-        public CatalogController(ILogger<CatalogController> logger, ICatalogService catalogService)
+        public CatalogController(ILogger<CatalogController> logger, ICatalogService catalogService, IMapper mapper, ILocalityService localityService)
         {
             _logger = logger;
             _catalogService = catalogService;
+            _mapper = mapper;
+            _localityService = localityService;
         }
 
         [HttpGet]
@@ -27,45 +36,155 @@ namespace BatiksProject.Controllers
             };
 
             ViewBag.Navbar = NavbarClass.Catalog;
-            return View(model);
+            return View("Index", model);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Search(SearchViewModel form)
+        {
+            var model = new CatalogIndexViewModel();
+            if (form.UploadedFile != null)
+            {
+                model.Items = await _catalogService.FindByImage(form.UploadedFile);
+            }
+            else
+            {
+                model.Items = await _catalogService.FindByKeyword(form.SearchText);
+            }
+
+            ViewBag.Navbar = NavbarClass.Catalog;
+            return View("Index", model);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Detail(int batikId)
+        {
+            var entity = await _catalogService.Get(batikId);
+            var model = _mapper.Map<CatalogDetailViewModel>(entity);
+
+            ViewBag.Navbar = NavbarClass.Catalog;
+            return View("Detail", model);
         }
 
         [Authorize]
         [HttpGet]
-        public IActionResult Manage()
+        public async Task<IActionResult> Manage()
         {
+            var model = new CatalogManageViewModel
+            {
+                Items =  await _catalogService.GetAll()
+            };
+
             ViewBag.Sidebar = SidebarClass.BatikManage;
-            return View();
+            return View("Manage", model);
         }
 
         [Authorize]
         [HttpGet]
-        public IActionResult Add()
+        public async Task<IActionResult> Add()
         {
+            var localities = await _localityService.GetAll();
+            var model = new CatalogEditViewModel
+            {
+                IsEdit = false,
+                Localities = localities.Select(x => new SelectListItem(x.Name, x.LocalityId.ToString()))
+            };
+
             ViewBag.Sidebar = SidebarClass.BatikAddOrEdit;
-            return View("Edit");
+            return View("Edit", model);
         }
 
         [Authorize]
         [HttpGet]
-        public IActionResult Edit(string locality)
+        public async Task<IActionResult> Edit(int batikId)
         {
-            ViewBag.Sidebar = SidebarClass.BatikAddOrEdit;
-            return View();
+            try
+            {
+                var localities = await _localityService.GetAll();
+                var batik = await _catalogService.Get(batikId);
+                var model = _mapper.Map<CatalogEditViewModel>(batik);
+                model.IsEdit = true;
+                model.Localities = localities.Select(x => new SelectListItem(x.Name, x.LocalityId.ToString()));
+
+                ViewBag.Sidebar = SidebarClass.BatikAddOrEdit;
+                return View("Edit", model);
+            }
+            catch (ServicesException serviceException)
+            {
+                ViewBag.Message = serviceException.Message;
+                ViewBag.AlertClass = "warning";
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, "Error when deleting entry");
+
+                ViewBag.Message = "Server mengalami masalah. Coba lagi nanti.";
+                ViewBag.AlertClass = "danger";
+            }
+
+            return await Index();
         }
 
+        [Authorize]
         [HttpGet]
-        public IActionResult Search(SearchViewModel model)
+        public async Task<IActionResult> Delete(int batikId)
         {
-            ViewBag.Navbar = NavbarClass.Catalog;
-            return View("Index");
+            try
+            {
+                await _catalogService.Remove(batikId);
+
+                ViewBag.Message = "Batik telah dihapus.";
+                ViewBag.AlertClass = "success";
+            }
+            catch (ServicesException serviceException)
+            {
+                ViewBag.Message = serviceException.Message;
+                ViewBag.AlertClass = "warning";
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, "Error when deleting entry");
+
+                ViewBag.Message = "Server mengalami masalah. Coba lagi nanti.";
+                ViewBag.AlertClass = "danger";
+            }
+
+            return await Index();
         }
 
-        [HttpGet]
-        public IActionResult Detail(int batikId)
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> Save(CatalogEditViewModel model)
         {
-            ViewBag.Navbar = NavbarClass.Catalog;
-            return View();
+            try
+            {
+                if (model.IsEdit)
+                {
+                    await _catalogService.Update(model);
+                }
+                else
+                {
+                    await _catalogService.Add(model);
+                }
+
+                ViewBag.Message = "Perubahan telah disimpan.";
+                ViewBag.AlertClass = "success";
+            }
+            catch (ServicesException serviceException)
+            {
+                ViewBag.Message = serviceException.Message;
+                ViewBag.AlertClass = "warning";
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, "Error when saving entry");
+
+                ViewBag.Message = "Server mengalami masalah. Coba lagi nanti.";
+                ViewBag.AlertClass = "danger";
+            }
+
+            return await Index();
         }
+
     }
 }
