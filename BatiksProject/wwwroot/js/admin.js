@@ -53,4 +53,8 @@
         }
     });
 
+    $(document).ready(function () {
+        bsCustomFileInput.init()
+    })
+
 })(jQuery); // End of use strict
