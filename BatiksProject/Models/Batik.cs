@@ -16,9 +16,9 @@ namespace BatiksProject.Models
         public Locality Locality { get; set; }
 
         [Required]
-        public string MinioObjectName { get; set; }
+        public string UploadName { get; set; }
 
         [Required]
-        public byte[] Features { get; set; }
+        public float[] Features { get; set; }
     }
 }

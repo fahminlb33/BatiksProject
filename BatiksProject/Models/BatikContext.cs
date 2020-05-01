@@ -1,4 +1,5 @@
-﻿using EntityFramework.Exceptions.SqlServer;
+﻿using BatiksProject.Infrastructure;
+using EntityFramework.Exceptions.SqlServer;
 using Microsoft.EntityFrameworkCore;
 
 namespace BatiksProject.Models
@@ -27,6 +28,10 @@ namespace BatiksProject.Models
             modelBuilder.Entity<Locality>()
                 .HasIndex(u => u.Name)
                 .IsUnique();
+
+            modelBuilder.Entity<Batik>()
+                .Property(u => u.Features)
+                .HasConversion(new FloatArrayToStringConverter());
 
             modelBuilder.Entity<User>().HasData(new User
             {
