@@ -122,7 +122,7 @@ namespace BatiksProject.Controllers
                 ViewBag.AlertClass = "danger";
             }
 
-            return await Index();
+            return await Manage();
         }
 
         [Authorize]
@@ -149,7 +149,7 @@ namespace BatiksProject.Controllers
                 ViewBag.AlertClass = "danger";
             }
 
-            return await Index();
+            return await Manage();
         }
 
         [Authorize]
@@ -183,7 +183,7 @@ namespace BatiksProject.Controllers
                 ViewBag.AlertClass = "danger";
             }
 
-            return await Index();
+            return await Manage();
         }
 
     }
